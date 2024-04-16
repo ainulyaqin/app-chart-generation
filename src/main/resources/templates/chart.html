@@ -1,0 +1,59 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Chart</title>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</head>
+<body>
+	<div>
+		<canvas id="barChart"></canvas>
+	</div>
+</body>
+
+<script type="text/javascript" th:inline="javascript">
+	/*<![CDATA[*/
+	var labelAttribute = [[${labelAttribute}]];
+	var dataAttribute = [[${dataAttribute}]];
+	var xLabel = [[${xLabel}]];
+	var yLabel = [[${yLabel}]];
+	
+	const ctx = document.getElementById('barChart');
+
+	new Chart(ctx, { 
+		type : 'bar',
+		data : {
+			labels : labelAttribute,
+			datasets : [ {
+				label : xLabel,
+				data : dataAttribute,
+				borderWidth : 1,
+				backgroundColor: '#FFB2C2'
+
+			} ]
+		},
+		options : {
+			scales : {
+				x: {
+		            title: {
+		              display: true,
+		              text: xLabel
+		            }
+		          },
+				y : {
+					beginAtZero : true,
+					title: {
+			              display: true,
+			              text: yLabel
+			            }
+				}
+			},
+			plugins : {
+				legend:false
+			}
+		}
+	});	
+	/*]]>*/
+</script>
+</html>
+
