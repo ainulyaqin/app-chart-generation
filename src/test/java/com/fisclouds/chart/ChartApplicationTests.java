@@ -1,10 +1,10 @@
-package com.fisclouds.batch;
+package com.fisclouds.chart;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class BatchIngestionDataApplicationTests {
+class ChartApplicationTests {
 
 	@Test
 	void contextLoads() {
