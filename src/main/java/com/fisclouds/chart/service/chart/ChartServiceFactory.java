@@ -22,6 +22,9 @@ public class ChartServiceFactory {
 	@Autowired
 	private ChartService barChart; 
 	
+	@Autowired
+	private ChartService pieChart; 
+	
 	public String getChart(String id,Model model) {
 		
 		log.info("incoming request chart id : "+id);
@@ -32,8 +35,16 @@ public class ChartServiceFactory {
 		if(datasetConfig==null) {
 			return "error";
 		}else if(datasetConfig.getChartType().equalsIgnoreCase("bar")) {
+			
 			log.info("incoming request chart type : "+datasetConfig.getChartType());
+			
 			return barChart.load(datasetConfig,model);
+		
+		}else if(datasetConfig.getChartType().equalsIgnoreCase("pie")) {
+			
+			log.info("incoming request chart type : "+datasetConfig.getChartType());
+			
+			return pieChart.load(datasetConfig,model);
 		}
 		
 		return "error";
