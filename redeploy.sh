@@ -1,3 +1,7 @@
+#!/bin/sh
+
+cd /Users/admin/Documents/code/app-chart-generation
+
 fuser -k 8080/tcp
 
 git pull
