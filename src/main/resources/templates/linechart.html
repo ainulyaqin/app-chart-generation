@@ -15,22 +15,42 @@
 	/*<![CDATA[*/
 	var labelAttribute = [[${labelAttribute}]];
 	var dataAttribute = [[${dataAttribute}]];
-	var colors = [[${colors}]];
 	var xLabel = [[${xLabel}]];
 	var yLabel = [[${yLabel}]];
 	
 	const ctx = document.getElementById('barChart');
 
 	new Chart(ctx, { 
-		type : 'pie',
+		type : 'line',
 		data : {
 			labels : labelAttribute,
 			datasets : [ {
 				label : xLabel,
 				data : dataAttribute,
 				borderWidth : 1,
-				backgroundColor: colors
+				backgroundColor: '#A0D0F5'
+
 			} ]
+		},
+		options : {
+			scales : {
+				x: {
+		            title: {
+		              display: true,
+		              text: xLabel
+		            }
+		          },
+				y : {
+					beginAtZero : true,
+					title: {
+			              display: true,
+			              text: yLabel
+			            }
+				}
+			},
+			plugins : {
+				legend:false
+			}
 		}
 	});	
 	/*]]>*/

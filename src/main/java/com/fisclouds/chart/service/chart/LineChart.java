@@ -12,7 +12,7 @@ import com.fisclouds.chart.model.DatasetConfig;
 import com.jayway.jsonpath.JsonPath;
 
 @Service
-public class PieChart implements ChartService {
+public class LineChart implements ChartService {
 
 	@Override
 	public String load(DatasetConfig datasetConfig, Model model) {
@@ -25,17 +25,11 @@ public class PieChart implements ChartService {
 
 		Queue<String> lables = new LinkedList<String>();
 		Queue<Integer> datas = new LinkedList<Integer>();
-		Queue<String> colors = new LinkedList<String>();
 
 		List<Map<String, Object>> datasets = JsonPath.read(data, "$.datasets");
-		int i=0;
 		for (Map<String, Object> dataset : datasets) {
 			lables.add((String)dataset.get("label"));
 			datas.add((Integer)dataset.get("value"));
-			colors.add(ChartColor.COLOR.get(i++));
-			if(i>=ChartColor.COLOR.size()) {
-				i=0;
-			}
 		}
 
 		String columns [] = JsonPath.read(data, "$.columns").toString().split(",");
@@ -48,9 +42,9 @@ public class PieChart implements ChartService {
 		model.addAttribute("xLabel", columns[0]);
 		model.addAttribute("yLabel", columns[1]);
 		
-		model.addAttribute("colors", colors.toArray(String[]::new));
+		model.addAttribute("configUrgent", configUrgent);
 		
-		return "piechart";
+		return "linechart";
 	}
 
 }

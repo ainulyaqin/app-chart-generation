@@ -25,6 +25,9 @@ public class ChartServiceFactory {
 	@Autowired
 	private ChartService pieChart; 
 	
+	@Autowired
+	private ChartService lineChart; 
+	
 	public String getChart(String id,Model model) {
 		
 		log.info("incoming request chart id : "+id);
@@ -45,6 +48,12 @@ public class ChartServiceFactory {
 			log.info("incoming request chart type : "+datasetConfig.getChartType());
 			
 			return pieChart.load(datasetConfig,model);
+			
+		}else if(datasetConfig.getChartType().equalsIgnoreCase("line")) {
+			
+			log.info("incoming request chart type : "+datasetConfig.getChartType());
+			
+			return lineChart.load(datasetConfig,model);
 		}
 		
 		return "error";
