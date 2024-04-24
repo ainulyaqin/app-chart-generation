@@ -4,6 +4,7 @@ import java.util.UUID;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
 
 @Entity
 public class DatasetConfig {
@@ -13,6 +14,7 @@ public class DatasetConfig {
 	
 	private String chartType;
 	
+	@Lob
 	private String data;
 
 	public UUID getId() {

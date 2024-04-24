@@ -29,13 +29,17 @@ public class PieChart implements ChartService {
 
 		List<Map<String, Object>> datasets = JsonPath.read(data, "$.datasets");
 		int i=0;
-		for (Map<String, Object> dataset : datasets) {
-			lables.add((String)dataset.get("label"));
-			datas.add((Integer)dataset.get("value"));
-			colors.add(ChartColor.COLOR.get(i++));
-			if(i>=ChartColor.COLOR.size()) {
-				i=0;
+		for (Map<String, Object> mapDataset : datasets) {
+			List<Map<String, Object>>  a = (List) mapDataset.get("data");
+			for(Map<String, Object> dataset : a) {
+				lables.add((String)dataset.get("label"));
+				datas.add((Integer)dataset.get("value"));
+				colors.add(ChartColor.COLOR.get(i++));
+				if(i>=ChartColor.COLOR.size()) {
+					i=0;
+				}
 			}
+			
 		}
 
 		String columns [] = JsonPath.read(data, "$.columns").toString().split(",");
