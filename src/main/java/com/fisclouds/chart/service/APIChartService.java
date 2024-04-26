@@ -1,5 +1,6 @@
 package com.fisclouds.chart.service;
 
+import java.util.Base64;
 import java.util.UUID;
 
 import org.apache.commons.logging.Log;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fisclouds.chart.dto.ChartDataDto;
+import com.fisclouds.chart.dto.RenderHtmlDto;
 import com.fisclouds.chart.dto.ResponseData;
 import com.fisclouds.chart.model.DatasetConfig;
 import com.fisclouds.chart.repository.DatasetConfigRepository;
@@ -18,8 +20,11 @@ import com.fisclouds.chart.repository.DatasetConfigRepository;
 @Service
 public class APIChartService {
 
-	@Value("${app.chart.hostname}")
-	private String hostname;
+	@Value("${app.chart.path-chart}")
+	private String chart;
+	
+	@Value("${app.chart.path-htmlrender}")
+	private String htmlRender;
 	
 	private Log log = LogFactory.getLog(APIChartService.class);
 	
@@ -37,7 +42,26 @@ public class APIChartService {
 		datasetConfigRepository.save(datasetConfig);
 		
 		log.info("successfully save data "+json);
-		String url = hostname+"?id="+datasetConfig.getId().toString();
+		String url = chart+"?id="+datasetConfig.getId().toString();
+		
+		return new ResponseData("successfully save data", url, datasetConfig.getId().toString());
+	}
+	
+	public ResponseData renderHtml(RenderHtmlDto renderHtmlDto) throws JsonProcessingException {
+		
+		byte[] decodedBytes = Base64.getDecoder().decode(renderHtmlDto.html());
+		String decodedString = new String(decodedBytes);
+		
+		//String json = new ObjectMapper().writeValueAsString(renderHtmlDto);
+		DatasetConfig datasetConfig = new DatasetConfig();
+		datasetConfig.setId(UUID.randomUUID());
+		datasetConfig.setChartType("renderhtml");
+		datasetConfig.setData(decodedString);
+		
+		datasetConfigRepository.save(datasetConfig);
+		
+		log.info("successfully save data ");
+		String url = htmlRender+"?id="+datasetConfig.getId().toString();
 		
 		return new ResponseData("successfully save data", url, datasetConfig.getId().toString());
 	}

@@ -13,49 +13,57 @@ import com.fisclouds.chart.repository.DatasetConfigRepository;
 
 @Service
 public class ChartServiceFactory {
-	
+
 	private Log log = LogFactory.getLog(ChartServiceFactory.class);
-	
+
 	@Autowired
 	private DatasetConfigRepository datasetConfigRepository;
-	
+
 	@Autowired
-	private ChartService barChart; 
-	
+	private ChartService barChart;
+
 	@Autowired
-	private ChartService pieChart; 
-	
+	private ChartService pieChart;
+
 	@Autowired
-	private ChartService lineChart; 
-	
-	public String getChart(String id,Model model) {
-		
-		log.info("incoming request chart id : "+id);
-		
-		DatasetConfig datasetConfig = datasetConfigRepository.findById(UUID.fromString(id))
-		.orElse(null);
-		
-		if(datasetConfig==null) {
+	private ChartService lineChart;
+
+	@Autowired
+	private ChartService renderHtmlChart;
+
+	public String getChart(String id, Model model) {
+
+		log.info("incoming request chart id : " + id);
+
+		DatasetConfig datasetConfig = datasetConfigRepository.findById(UUID.fromString(id)).orElse(null);
+
+		if (datasetConfig == null) {
 			return "error";
-		}else if(datasetConfig.getChartType().equalsIgnoreCase("bar")) {
-			
-			log.info("incoming request chart type : "+datasetConfig.getChartType());
-			
-			return barChart.load(datasetConfig,model);
+		} else if (datasetConfig.getChartType().equalsIgnoreCase("bar")) {
+
+			log.info("incoming request chart type : " + datasetConfig.getChartType());
+
+			return barChart.load(datasetConfig, model);
+
+		} else if (datasetConfig.getChartType().equalsIgnoreCase("pie")) {
+
+			log.info("incoming request chart type : " + datasetConfig.getChartType());
+
+			return pieChart.load(datasetConfig, model);
+
+		} else if (datasetConfig.getChartType().equalsIgnoreCase("line")) {
+
+			log.info("incoming request chart type : " + datasetConfig.getChartType());
+
+			return lineChart.load(datasetConfig, model);
 		
-		}else if(datasetConfig.getChartType().equalsIgnoreCase("pie")) {
-			
-			log.info("incoming request chart type : "+datasetConfig.getChartType());
-			
-			return pieChart.load(datasetConfig,model);
-			
-		}else if(datasetConfig.getChartType().equalsIgnoreCase("line")) {
-			
-			log.info("incoming request chart type : "+datasetConfig.getChartType());
-			
-			return lineChart.load(datasetConfig,model);
+		} else if (datasetConfig.getChartType().equalsIgnoreCase("renderhtml")) {
+
+			log.info("incoming request chart type : " + datasetConfig.getChartType());
+
+			return renderHtmlChart.load(datasetConfig, model);
 		}
-		
+
 		return "error";
 	}
 }
