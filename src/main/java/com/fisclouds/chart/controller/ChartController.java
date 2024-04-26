@@ -15,7 +15,7 @@ public class ChartController {
 	private ChartServiceFactory chartServiceFactory;
 	
 	
-	@GetMapping(value="/render-html",produces = MediaType.TEXT_HTML_VALUE)
+	@GetMapping(value="/data/chart",produces = MediaType.TEXT_HTML_VALUE)
 	public String renderHtml(Model model, String id) {
 		return chartServiceFactory.getChart(id,model);
 	}
